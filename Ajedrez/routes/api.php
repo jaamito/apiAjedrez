@@ -213,7 +213,7 @@ Route::get('/movimiento/{idpartida}/{idUser}/{ultpos}/{ultname}/{ultficha}',func
 	if($movmientoPartida){
 		if($idUser == "1"){
 			$movmientoPartida->ultpos1 = $ultpos;
-			$movmientoPartida->ultname1 = $ulname;
+			$movmientoPartida->ultname1 = $ultname;
 			$movmientoPartida->ultficha1 = $ultficha;
 			$movmientoPartida->save();
 			$mensaje = "Movimiento guardado user 1";
@@ -221,7 +221,7 @@ Route::get('/movimiento/{idpartida}/{idUser}/{ultpos}/{ultname}/{ultficha}',func
 
 		}else{
 			$movmientoPartida->ultpos2 = $ultpos;
-			$movmientoPartida->ultname2 = $ulname;
+			$movmientoPartida->ultname2 = $ultname;
 			$movmientoPartida->ultficha2 = $ultficha;
 			$movmientoPartida->save();
 			$mensaje = "Movimiento guardado user 2";
