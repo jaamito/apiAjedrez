@@ -226,6 +226,7 @@ Route::get('/movimiento/{idpartida}/{idUser}/{ultpos}/{ultname}/{ultficha}',func
 			$movmientoPartida->save();
 			$mensaje = "Movimiento guardado user 2";
 		    return response()->json(['mensaje'=>$mensaje]);
+		}
     }	
 });
 
