@@ -210,21 +210,26 @@ Route::get('/movimiento/{idpartida}',function(request $request,$idpartida){
 //hacer movimiento
 Route::get('/movimiento/{idpartida}/{idUser}/{ultpos}/{ultname}/{ultficha}',function(request $request,$idpartida,$idUser,$ultpos,$ultname,$ultficha){
 	$movmientoPartida = Movimientos::where('id',$idpartida)->first();
-	if($idUser == "1"){
-		$movmientoPartida->ultpos1 = $ultpos;
-		$movmientoPartida->ultname1 = $ulname;
-		$movmientoPartida->ultficha1 = $ultficha;
-		$movmientoPartida->save();
-		$mensaje = "Movimiento guardado user 1";
-	    return response()->json(['mensaje'=>$mensaje]);
+	if($movmientoPartida){
+		if($idUser == "1"){
+			$movmientoPartida->ultpos1 = $ultpos;
+			$movmientoPartida->ultname1 = $ulname;
+			$movmientoPartida->ultficha1 = $ultficha;
+			$movmientoPartida->save();
+			$mensaje = "Movimiento guardado user 1";
+		    return response()->json(['mensaje'=>$mensaje]);
 
+		}else{
+			$movmientoPartida->ultpos2 = $ultpos;
+			$movmientoPartida->ultname2 = $ulname;
+			$movmientoPartida->ultficha2 = $ultficha;
+			$movmientoPartida->save();
+			$mensaje = "Movimiento guardado user 2";
+		    return response()->json(['mensaje'=>$mensaje]);
 	}else{
-		$movmientoPartida->ultpos2 = $ultpos;
-		$movmientoPartida->ultname2 = $ulname;
-		$movmientoPartida->ultficha2 = $ultficha;
-		$movmientoPartida->save();
-		$mensaje = "Movimiento guardado user 2";
-	    return response()->json(['mensaje'=>$mensaje]);
+		$mensaje = "Este user no está asociado a ninguna partida";
+		return response()->json(['mensaje'=>$mensaje]);
+	}
     }	
 });
 
