@@ -226,10 +226,6 @@ Route::get('/movimiento/{idpartida}/{idUser}/{ultpos}/{ultname}/{ultficha}',func
 			$movmientoPartida->save();
 			$mensaje = "Movimiento guardado user 2";
 		    return response()->json(['mensaje'=>$mensaje]);
-	}else{
-		$mensaje = "Este user no está asociado a ninguna partida";
-		return response()->json(['mensaje'=>$mensaje]);
-	}
     }	
 });
 
