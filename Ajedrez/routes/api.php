@@ -20,6 +20,9 @@ use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
 header('Access-Control-Allow-Origin: *');
 
+session_start();
+$_SESSION["fil"]=1;
+$_SESSION["col"]=5;
 
 /*
 |--------------------------------------------------------------------------
@@ -68,25 +71,6 @@ Route::get('/registrar/{name}/{email}/{password}',function(request $request,$nam
 	//header("Access-Control-Allow-Origin: *");
 	return $registroOk;
 });
-Route::post('/registrar/{name}/{email}/{password}',function(request $request,$name,$email,$password){
-	$nombre = $name;
-	$correo = $email;
-	$contrasenya = bcrypt($password);
-	$registroOk = "Registrado correctamente";
-	
-	//Creamos usuario
-	$createUser = new User();
-	$createUser->name = $nombre;
-	$createUser->email = $correo;
-	$createUser->password = $contrasenya;
-	$createUser->api_token = str_random(50);
-	$createUser->save();
-
-	//Redirigimos a la ruta principal
-	$url = 'http://127.0.0.1:8000/api';
-	echo "Usuario registrado correctamente!";
-	return response()->json(['registroOk'=>$registroOk]);
-});
 //-X-X-X-X-XX-X-X-X-X-X-LOGIN-X-X-X-X-X-X-X-X-X-X-X-\\	
 Route::get('/login/{user}/{password}',function(request $request,$email,$password){
 
@@ -98,8 +82,7 @@ Route::get('/login/{user}/{password}',function(request $request,$email,$password
         $newToken->api_token = $token;
         $newToken->save();
         $user = Auth::user()->name;
-        $partida1 = Partidas::where('id', 1);
-        return response()->json(['token'=>$token,'Usuario'=>$user, 'partida1'=>$partida1]);
+        return response()->json(['token'=>$token,'Usuario'=>$user]);
     };
 });
 Route::post('/login/{user}/{password}',function(request $request,$email,$password){
@@ -208,24 +191,50 @@ Route::get('/movimiento/{idpartida}',function(request $request,$idpartida){
     return response()->json(['ultpos1'=>$movmientoPartida->ultpos1,'ultficha1'=>$movmientoPartida->ultficha1,'ultname1'=>$movmientoPartida->ultname1,'ultpos2'=>$movmientoPartida->ultpos2,'ultficha2'=>$movmientoPartida->ultficha2,'ultname2'=>$movmientoPartida->ultname2]);		
 });
 //hacer movimiento
-Route::get('/movimiento/{idpartida}/{idUser}/{ultpos}/{ultname}/{ultficha}',function(request $request,$idpartida,$idUser,$ultpos,$ultname,$ultficha){
-	$movmientoPartida = Movimientos::where('id',$idpartida)->first();
-	if($idUser == "1"){
-		$movmientoPartida->ultpos1 = $ultpos;
-		$movmientoPartida->ultname1 = $ulname;
-		$movmientoPartida->ultficha1 = $ultficha;
-		$movmientoPartida->save();
-		$mensaje = "Movimiento guardado user 1";
-	    return response()->json(['mensaje'=>$mensaje]);
+Route::get('/movimiento/{idpartida}/{idUser}/{fila}/{columna}',function(request $request,$idPartida,$idUser,$fila,$columna){
 
-	}else{
-		$movmientoPartida->ultpos2 = $ultpos;
-		$movmientoPartida->ultname2 = $ulname;
-		$movmientoPartida->ultficha2 = $ultficha;
-		$movmientoPartida->save();
-		$mensaje = "Movimiento guardado user 2";
-	    return response()->json(['mensaje'=>$mensaje]);
-    }	
+ 	$ultMov = Movimientos::select()->orderBy('id', 'desc')->first();
+	$movimiento = new Movimientos();
+	  $defFil = $ultMov->fila;
+	  $defCol= $ultMov->col;
+
+	  if($defFil-1==$fila && $defCol==$columna || $defFil+1==$fila && $defCol==$columna && $fila < 9 && $fila > 0 && $columna < 9 && $columna > 0){
+	    $msj="Movimiento correcto y realizado";
+	    $movimiento->idPartida=$idPartida;
+	    $movimiento->idUser = $idUser;
+	    $movimiento->fila = $fila;
+	    $movimiento->col = $columna;
+	    $movimiento->save();
+	    $_SESSION["fil"] = $fila;
+	  	$_SESSION["col"] = $columna;
+	  	$poscion = "Fila: ".$fila." Columna: ".$columna;
+	    return response()->json(['mensaje'=>$msj, 'poscion'=>$poscion]);
+	  }else if($defFil==$fila && $defCol-1==$columna || $defFil==$fila && $defCol+1==$columna && $fila < 9 && $fila > 0 && $columna < 9 && $columna > 0){
+	    $msj="Movimiento correcto y realizado";
+	    $movimiento->idPartida=$idPartida;
+	    $movimiento->idUser = $idUser;
+	    $movimiento->fila=$fila;
+	    $movimiento->col=$columna;
+	    $movimiento->save();
+	    $_SESSION["fil"] = $fila;
+	  	$_SESSION["col"] = $columna;
+	    $poscion = "Fila: ".$fila." Columna: ".$columna;
+	    return response()->json(['mensaje'=>$msj, 'poscion'=>$poscion]);
+	  }else if($defFil-1==$fila && $defCol-1==$columna || $defFil+1==$fila && $defCol+1==$columna && $fila < 9 && $fila > 0 && $columna < 9 && $columna > 0){
+	    $msj="Diagonal correcta y realizada";
+	    $movimiento->idPartida=$idPartida;
+	    $movimiento->idUser = $idUser;
+	    $movimiento->fila=$fila;
+	    $movimiento->col=$columna;
+	    $movimiento->save();
+	    $_SESSION["fil"] = $fila;
+	  	$_SESSION["col"] = $columna;
+	    $poscion = "Fila: ".$fila." Columna: ".$columna;
+	    return response()->json(['mensaje'=>$msj, 'poscion'=>$poscion]);
+	  }else{
+	    $msj="Movimiento incorrecto";
+	    return response()->json(['mensaje'=>$msj]);
+	  }	
 });
 
 
