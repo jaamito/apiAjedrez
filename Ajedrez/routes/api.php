@@ -232,7 +232,8 @@ Route::get('/movimiento/{idpartida}/{idUser}/{fila}/{columna}',function(request 
 	    $poscion = "Fila: ".$fila." Columna: ".$columna;
 	    return response()->json(['mensaje'=>$msj, 'poscion'=>$poscion]);
 	  }else{
-	    $msj="Movimiento incorrecto";
+	    $msj="Movimiento incorrecto la ultima jugada que has hecho ha sido Fila: ".$defFil." Columna: ".$defCol." Y estas intentando hacer el siguiente movimiento -> Fila: ".$fila." Columna: ".$columna;
+
 	    return response()->json(['mensaje'=>$msj]);
 	  }	
 });
