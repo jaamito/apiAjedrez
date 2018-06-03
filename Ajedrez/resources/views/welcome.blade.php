@@ -4,11 +4,12 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>Laravel</title>
-
+        <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
+        <!-- Styles -->
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+        <title>RedFlox</title>
 
         <!-- Styles -->
         <style>
@@ -65,31 +66,119 @@
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
-                </div>
-            @endif
+        <nav class="navbar navbar-inverse navbar-static-top">
+            <div class="container">
+                <div class="navbar-header">
 
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
+                    <!-- Collapsed Hamburger -->
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse" aria-expanded="false">
+                        <span class="sr-only">Toggle Navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <!-- Branding Image -->
+                    <a class="navbar-brand" href="{{ url('/') }}">
+                        {{ config('app.name', 'Laravel') }}
+                    </a>
                 </div>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+                <div class="collapse navbar-collapse" id="app-navbar-collapse">
+                    <!-- Left Side Of Navbar -->
+                    <ul class="nav navbar-nav">
+                        &nbsp;
+                    </ul>
+
+                    <!-- Right Side Of Navbar -->
+                    <ul class="nav navbar-nav navbar-right">
+                        <!-- Authentication Links -->
+                        @guest
+                            <li><a href="{{ route('login') }}">Login</a></li>
+                            <li><a href="{{ route('register') }}">Register</a></li>
+                        @else
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" v-pre>
+                                    {{ Auth::user()->name }} <span class="caret"></span>
+                                </a>
+
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                                            Logout
+                                        </a>
+
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            {{ csrf_field() }}
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                        @endguest
+                    </ul>
                 </div>
             </div>
+        </nav>
+        <!--Container Ini-->
+        <div class="container">
+        <!--Row Ini 1-->
+            <div class="row">
+              
+            </div>
+        <!--Row Fin 1-->
+        <!--Row Ini 2-->
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Dashboard</div>
+
+                        <div class="panel-body">
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <!--Row Fin 2-->
+        <!--Row Ini 3-->
+            <div class="row">
+              <div class="col-md-1">.col-md-1</div>
+              <div class="col-md-1">.col-md-1</div>
+              <div class="col-md-1">.col-md-1</div>
+              <div class="col-md-1">.col-md-1</div>
+              <div class="col-md-1">.col-md-1</div>
+              <div class="col-md-1">.col-md-1</div>
+              <div class="col-md-1">.col-md-1</div>
+              <div class="col-md-1">.col-md-1</div>
+              <div class="col-md-1">.col-md-1</div>
+              <div class="col-md-1">.col-md-1</div>
+              <div class="col-md-1">.col-md-1</div>
+              <div class="col-md-1">.col-md-1</div>
+            </div>
+        <!--Row Fin 3-->
+        <!--Row Ini 4-->
+            <div class="row">
+              <div class="col-md-8">.col-md-8</div>
+              <div class="col-md-4">.col-md-4</div>
+            </div>
+        <!--Row Fin 4-->
+        <!--Row Ini 5-->
+            <div class="row">
+              <div class="col-md-4">.col-md-4</div>
+              <div class="col-md-4">.col-md-4</div>
+              <div class="col-md-4">.col-md-4</div>
+            </div>
+        <!--Row Fin 5-->
+        <!--Row Ini 6-->
+            <div class="row">
+              <div class="col-md-6">.col-md-6</div>
+              <div class="col-md-6">.col-md-6</div>
+            </div>
+        <!--Row Ini 6-->
         </div>
+        <!--Container Fin-->
+        <!-- Scripts -->
+        <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>
